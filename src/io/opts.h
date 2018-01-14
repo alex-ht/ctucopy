@@ -130,6 +130,7 @@ class opts {
         int vad_filter_order;               // vad output median filter order
 
  	// Misc.
+	char winfunc[39];						// window type (hamming or blackman)
 	int window;							// window length in samples (will be computed)
 	int wshift;       					// window shift in samples
 	int wfft;         					// FFT size

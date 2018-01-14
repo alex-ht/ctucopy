@@ -49,6 +49,7 @@ opts::opts(int& argc, char **&argv, char *_version) {
 	remove_dc1 = false;		// remove offset
 
 	// Segmentation
+	strcpy(winfunc,"hamming");
 	window_ms = 25.;
 	wshift_ms = 10.;
 
@@ -368,6 +369,8 @@ void opts::settings() {
 		 << "\tremove DC_1 v. 3.2.2                  = " << _bool[remove_dc1] << endl
 		 
 		 << "- Segmentation:" << endl
+		 << "\twindow function                      = " << winfunc
+		 << "\t (hamming/blackman)" << endl
 		 << "\twindow size                          = " << window_ms 
 		 << " ms (" << window << " samples)" << endl
 		 << "\twindow shift (samples)               = " << wshift_ms
@@ -484,6 +487,7 @@ void opts::usage() {
 		 << "    -remove_dc1 <on|off>    - remove DC from frame                                  <off>" << endl
 		 << "                                                                                        " << endl
          << "  SEGMENTATION:                                                                         " << endl
+		 << "    -winfunc <hamming|blackman> - window function                              <hamming>" << endl
 		 << "    -w <float>              - window size (ms)                                      <25>" << endl
 		 << "    -s <float>              - window shift size (ms)                                <10>" << endl
 		 << "                                                                                        " << endl
@@ -715,6 +719,7 @@ int	opts::parse(char*l,char*r) {
 		if (!strcmp(r,"on")) remove_dc1 = true;
 		else if (!strcmp(r,"off")) remove_dc1 = false;
 	}
+	else if (!strcmp(l,"-winfunc")) 		{ if(r) strcpy(winfunc,r); }
 	else if (!strcmp(l,"-w")) 			{ if(r) window_ms = atof(r); }
 	else if (!strcmp(l,"-s")) 			{ if(r) wshift_ms = atof(r); }
 	

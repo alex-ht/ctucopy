@@ -37,6 +37,7 @@ class _IN {
         void ByteSwap32 (uLint *);
         void SwapFloat (float *);
 	void hamming (double alpha); 		// initializes Hamming window
+	void blackman (); 			// initializes Blackman window
 	double c_abs (double *re, double *im) { return sqrt (*re * *re + *im * *im); } // abs(Re,Im)
 	double c_ph  (double, double);		// angle(Re,Im) (rad)
         int do_td_iir_mfcc;

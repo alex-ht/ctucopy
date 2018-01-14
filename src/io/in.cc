@@ -143,6 +143,13 @@ void _IN::hamming (double alpha) {
 	 W[j] = alpha - (1-alpha) * cos(2*pi*j/(o->window-1.)) ;
 };
 
+void _IN::blackman () {
+	double pi = 2.*asin(1.) ;
+	for (int j = 0 ; j < o->window ; j++ )
+	 W[j] = 0.42 - 0.5 * cos(2*pi*j/(o->window-1.)) +
+	        0.08 * cos(4*pi*j/(o->window-1.)) ;
+}
+
 void _IN::ByteSwap16 (Sint *nValue) {
     uSint *x = (uSint*) nValue;
     *nValue = (uSint)(((*x >> 8)) | (*x << 8));
@@ -203,7 +210,9 @@ double _IN::c_ph (double re, double im) {
 // ******** INPUT = RAW ***************************************
 rawIN::rawIN(opts* o) : _IN(o) {
 	srand(1); // for dither
-	hamming(0.54);
+	if (!strcmp(o->winfunc, "hamming")) hamming(0.54);
+	else if (!strcmp(o->winfunc, "blackman")) blackman();
+	else throw ("IN: unknown window function");
     try {
     	cbuffer = new double [o->window];
     	cache   = new Sint [o->window];
